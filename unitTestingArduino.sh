@@ -1,10 +1,27 @@
 #!/bin/bash
+#
+# Description:
+#     This script is meant to compile ThingML test file specifying expected
+#  input and output with @test annotations. The generated ThingML files with
+#  configuration are then compiled to arduino one by one and uploaded to an
+#  Arduino board connected as the `ttyACM0` device.
+#
+# Author:
+# - Alexandre RIO <contact@alexrio.fr>
+#
+# Dependencies:
+# - ano: https://github.com/scottdarch/Arturo
+# - screen: classic one, from GNU
+# - compilerThingML.sh: wrapping the ThingML compiler
+#
+############################################################################
 
 CUR_FOLDER=$PWD
+TIMEOUT=5
 LIB="$HOME/SINTEF/lib-arduino/"
 TMP="/tmp/"
 
-for testFile in `find . -name 'test_*.thingml'`; do
+for testFile in `ls test*.thingml`; do
   compilerThingML.sh -t testconfigurationgen -s $testFile --options arduino > /dev/null 2>> $CUR_FOLDER/thingml_error.log
 done
 
@@ -27,7 +44,7 @@ for inoFile in `find $PWD -name '*.ino'`; do
   ano build > /dev/null 2>> $CUR_FOLDER/arduino_error.log
   ano upload > /dev/null
   screen -c $TMP/screenrc -d -m -L -S arduino /dev/ttyACM0 9600 &
-  sleep 5
+  sleep $TIMEOUT
   screen -X -S arduino quit
 done
 
