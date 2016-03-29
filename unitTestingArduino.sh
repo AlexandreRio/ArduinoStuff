@@ -21,15 +21,20 @@ TIMEOUT=5
 LIB="$HOME/SINTEF/lib-arduino/"
 TMP="/tmp/"
 
+echo "Starting testing at: `date`" >> $CUR_FOLDER/thingml.log
 for testFile in `ls test*.thingml`; do
   compilerThingML.sh -t testconfigurationgen -s $testFile --options arduino > /dev/null 2>> $CUR_FOLDER/thingml_error.log
 done
+
+echo "End generating test files at: `date`" >> $CUR_FOLDER/thingml.log
 
 cd _arduino
 
 for thingTest in `find $PWD -name '*.thingml'`; do
   compilerThingML.sh -c arduino -s $thingTest > /dev/null 2>> $CUR_FOLDER/thingml_error.log
 done
+
+echo "End compiling thingml test to arduino at: `date`" >> $CUR_FOLDER/thingml.log
 
 echo "logfile $CUR_FOLDER/arduino.log" > $TMP/screenrc
 
@@ -47,5 +52,7 @@ for inoFile in `find $PWD -name '*.ino'`; do
   sleep $TIMEOUT
   screen -X -S arduino quit
 done
+
+echo "End testing at: `date`" >> $CUR_FOLDER/thingml.log
 
 cd $CUR_FOLDER
