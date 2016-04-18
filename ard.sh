@@ -4,6 +4,7 @@
 LIB="$HOME/SINTEF/lib-arduino/"
 TMP="/tmp/"
 
+CURRENT_FOLDER=$PWD
 SOURCE=`find $PWD -regextype posix-awk -regex ".*ino|.*pde" | xargs ls -1t | dmenu -l 10`
 
 
@@ -24,7 +25,7 @@ else
         ano clean
         ;;
       b)
-        ano build
+        ano build 2> $CURRENT_FOLDER/arduino_error.log
         ;;
       u)
         ano upload
