@@ -12,7 +12,7 @@
 #
 ############################################################################
 
-THINGML_JAR=$HOME/.bin/compilerThingML.jar
-THINGML_PLUGINS=$HOME/.bin/thingml-network.jar:
+THINGML_JAR=$HOME/.bin/thingml.jar
+THINGML_PLUGINS=$HOME/.bin/thingml-network-plugins.jar
 
 java -cp $CLASSPATH:$THINGML_JAR:$THINGML_PLUGINS org.thingml.compilers.commandline.Main "$@"

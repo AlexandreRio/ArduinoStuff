@@ -31,7 +31,7 @@ else
         ano upload
         ;;
       s)
-        ano serial
+        ano serial -b 115200
         ;;
       '?')
         echo -e "error\n"
